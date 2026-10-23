@@ -1,0 +1,36 @@
+# Datos (confidenciales y/o pesados): no se versionan
+datos/
+*.gpkg
+*.gpkg-wal
+*.gpkg-shm
+*.tif
+*.tiff
+*.kmz
+*.kml
+*.csv
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.zip
+
+# Archivos auxiliares de QGIS
+*.aux.xml
+*.qgz~
+*.qgs~
+*_attachments.zip
+.qgis-cache/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Credenciales
+*.json.key
+credentials*
+.env
+
+# Zips armados por empaquetar.ps1
+dist/
