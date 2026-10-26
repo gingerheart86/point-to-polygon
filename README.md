@@ -30,7 +30,7 @@ Polígono de la chacra + hectáreas + lluvia y temperatura (GeoPackage)
 ## Estructura
 
 ```
-punto-a-poligono/
+point-to-polygon/
 ├── punto_a_poligono/    ← el plugin (esta carpeta es la que va dentro del .zip)
 │   ├── metadata.txt      versión y datos del plugin
 │   ├── plugin.py, provider.py, modelo.py, config.py

@@ -117,4 +117,4 @@ Al ejecutarlo, **prueba la conexión con Earth Engine** y te avisa si algo falla
 - Todo se procesa en **Google Earth Engine**, con la cuenta y el proyecto de cada usuario.
 
 ## 6. Proponer cambios
-Los cambios se proponen con un **pull request** en el repositorio de GitHub (`github.com/gingerheart86/punto-a-poligono`); los problemas, en *Issues*. Licencia: GPL-2.0 o posterior.
+Los cambios se proponen con un **pull request** en el repositorio de GitHub (`github.com/gingerheart86/point-to-polygon`); los problemas, en *Issues*. Licencia: GPL-2.0 o posterior.
