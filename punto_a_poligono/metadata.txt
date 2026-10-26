@@ -15,4 +15,4 @@ experimental=True
 deprecated=False
 hasProcessingProvider=yes
 changelog=
-    1.0.0 Primera versión pública: modelo punto → polígono con Sentinel-2 en Google Earth Engine, comparación de hectáreas, lluvia y temperatura, rásters de la zona y configuración por PC.
+    1.0.0 First public release: point-to-polygon model with Sentinel-2 in Google Earth Engine, declared-area check, rainfall and temperature, rasters of the search area and per-PC setup.
