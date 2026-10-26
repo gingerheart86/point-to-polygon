@@ -1,7 +1,7 @@
-# Cómo funciona el modelo "Punto a polígono" (explicado para principiantes)
+# Cómo funciona el modelo
 
-## La idea en una frase
-> **Una chacra es un pedazo de campo donde todas las plantas nacieron, crecieron y se secaron al mismo tiempo.** El modelo busca, alrededor de tu punto, todos los píxeles que "vivieron la misma historia" que el punto.
+## La idea 
+> **Una chacra es área de campo donde todas las plantas nacieron, crecieron y se secaron al mismo tiempo.** El modelo busca, alrededor de tu punto, todos los píxeles que "vivieron la misma historia" que el punto.
 
 ## Una analogía
 Imaginá una foto aérea del campo sacada **una vez por mes**, de mayo a octubre: seis fotos. Si mirás un solo punto de la chacra en las seis, ves su historia: en mayo era tierra pelada, en julio apareció el verde, en septiembre estaba verde oscuro y en octubre empezó a amarillear.
