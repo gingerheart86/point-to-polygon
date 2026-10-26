@@ -1,6 +1,6 @@
 # Punto a Polígono: delimitar chacras a partir de un punto
 
-Plugin de QGIS + Google Earth Engine que, a partir de **un punto georreferenciado dentro de una chacra**, genera automáticamente el **polígono del lote** con la serie temporal de NDVI de Sentinel-2. Además calcula hectáreas, las compara con las declaradas y agrega **lluvia** (CHIRPS v3) y **temperatura** (Landsat 8/9, ERA5-Land) de la temporada.
+Plugin de QGIS + Google Earth Engine que, a partir de **un punto georreferenciado dentro de una chacra**, genera automáticamente el **polígono de la chacra** con la serie temporal de NDVI de Sentinel-2. Además calcula hectáreas, las compara con las declaradas y agrega **lluvia** (CHIRPS v3) y **temperatura** (Landsat 8/9, ERA5-Land) de la temporada.
 
 Sirve en cualquier caso en que se conozca solo la ubicación aproximada de un cultivo y haga falta su contorno. Desarrollado y probado en Uruguay.
 
@@ -18,7 +18,7 @@ Puntos (uno dentro de cada chacra)
 Círculo alrededor del punto (radio ajustable, 3 km)      ← zona de búsqueda
         │
         ▼
-Segmentación Sentinel-2 en GEE desde el punto            ← borde del lote sembrado
+Segmentación Sentinel-2 en GEE desde el punto            ← borde de la chacra sembrado
         │
         ▼
 Polígono de la chacra + hectáreas + lluvia y temperatura (GeoPackage)
