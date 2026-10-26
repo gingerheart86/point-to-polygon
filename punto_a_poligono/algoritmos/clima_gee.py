@@ -70,13 +70,13 @@ class ClimaGEE(QgsProcessingAlgorithm):
 
     def initAlgorithm(self, config_=None):
         self.addParameter(QgsProcessingParameterFeatureSource(
-            self.CHACRAS, "Chacras (polígonos)", [QgsProcessing.TypeVectorPolygon]))
+            self.CHACRAS, "Chacras (polígonos)", [QgsProcessing.SourceType.TypeVectorPolygon]))
         self.addParameter(QgsProcessingParameterField(
             self.CAMPO_ID, "Campo identificador", parentLayerParameterName=self.CHACRAS))
         self.addParameter(QgsProcessingParameterString(self.INICIO, "Inicio del período (AAAA-MM-DD)", "2026-05-01"))
         self.addParameter(QgsProcessingParameterString(self.FIN, "Fin del período (AAAA-MM-DD)", "2026-12-31"))
         self.addParameter(QgsProcessingParameterFeatureSink(
-            self.OUTPUT, "Chacras con lluvia y temperatura", QgsProcessing.TypeVectorPolygon))
+            self.OUTPUT, "Chacras con lluvia y temperatura", QgsProcessing.SourceType.TypeVectorPolygon))
 
     def processAlgorithm(self, parameters, context, feedback):
         chacras = self.parameterAsSource(parameters, self.CHACRAS, context)
@@ -127,5 +127,5 @@ class ClimaGEE(QgsProcessingAlgorithm):
             o = QgsFeature(campos)
             o.setGeometry(f.geometry())
             o.setAttributes([attrs.get(n) for n in campos.names()])
-            sink.addFeature(o, QgsFeatureSink.FastInsert)
+            sink.addFeature(o, QgsFeatureSink.Flag.FastInsert)
         return {self.OUTPUT: dest}

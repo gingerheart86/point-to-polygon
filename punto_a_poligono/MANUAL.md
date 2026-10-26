@@ -7,7 +7,7 @@ A partir de **un punto dentro de cada chacra**, dibuja el **polígono del lote**
 ## 1. Instalación (una vez por PC)
 
 ### 1.1 Requisitos de la PC
-1. **QGIS 3.28 o posterior.** Probado en 3.28 y 3.44.
+1. **QGIS 3.40 o posterior** (también QGIS 4). Probado en 3.44.
 2. **Python con la librería `earthengine-api`**, en un entorno aparte del de QGIS. Por ejemplo, desde una terminal:
    - `python -m venv %USERPROFILE%\.venvs\gee`
    - `%USERPROFILE%\.venvs\gee\Scripts\pip install earthengine-api requests pip-system-certs`

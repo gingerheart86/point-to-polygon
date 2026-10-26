@@ -89,7 +89,7 @@ class _Post(QgsProcessingLayerPostProcessorInterface):
 
 def _estilo_ndvi(capa):
     sh = QgsColorRampShader(0, 0.9)
-    sh.setColorRampType(QgsColorRampShader.Interpolated)
+    sh.setColorRampType(QgsColorRampShader.Type.Interpolated)
     sh.setColorRampItemList([QgsColorRampShader.ColorRampItem(v, QColor(c)) for v, c in
                              [(0, "#a50026"), (0.3, "#fdae61"), (0.5, "#ffffbf"), (0.7, "#a6d96a"), (0.9, "#006837")]])
     s = QgsRasterShader()
@@ -104,7 +104,7 @@ def _estilo_rampa(capa, colores):
     if hi <= lo:
         hi = lo + 1
     sh = QgsColorRampShader(lo, hi)
-    sh.setColorRampType(QgsColorRampShader.Interpolated)
+    sh.setColorRampType(QgsColorRampShader.Type.Interpolated)
     paso = (hi - lo) / (len(colores) - 1)
     sh.setColorRampItemList([QgsColorRampShader.ColorRampItem(lo + i * paso, QColor(c), f"{lo + i * paso:.1f}")
                              for i, c in enumerate(colores)])
@@ -115,7 +115,7 @@ def _estilo_rampa(capa, colores):
 
 def _estilo_distancia(capa):
     sh = QgsColorRampShader()
-    sh.setColorRampType(QgsColorRampShader.Discrete)
+    sh.setColorRampType(QgsColorRampShader.Type.Discrete)
     sh.setColorRampItemList([QgsColorRampShader.ColorRampItem(v, QColor(c), t) for v, c, t in
                              [(0.11, "#1a9641", "< 0.11"), (0.15, "#a6d96a", "0.11-0.15"),
                               (0.20, "#ffffbf", "0.15-0.20"), (0.25, "#fdae61", "0.20-0.25"),
@@ -153,16 +153,16 @@ class RastersS2GEE(QgsProcessingAlgorithm):
 
     def initAlgorithm(self, config_=None):  # no "config": taparía el módulo de configuración
         self.addParameter(QgsProcessingParameterFeatureSource(
-            self.PUNTOS, "Puntos de las chacras", [QgsProcessing.TypeVectorPoint]))
+            self.PUNTOS, "Puntos de las chacras", [QgsProcessing.SourceType.TypeVectorPoint]))
         self.addParameter(QgsProcessingParameterField(
             self.CAMPO_ID, "Campo identificador", parentLayerParameterName=self.PUNTOS))
         self.addParameter(QgsProcessingParameterFeatureSource(
-            self.ZONAS, "Zonas de búsqueda (con el mismo campo identificador)", [QgsProcessing.TypeVectorPolygon]))
+            self.ZONAS, "Zonas de búsqueda (con el mismo campo identificador)", [QgsProcessing.SourceType.TypeVectorPolygon]))
         self.addParameter(QgsProcessingParameterString(self.INICIO, "Inicio de la temporada (AAAA-MM-DD)", "2026-05-01"))
         self.addParameter(QgsProcessingParameterString(self.FIN, "Fin de la temporada (AAAA-MM-DD)", "2026-10-15"))
         self.addParameter(QgsProcessingParameterFile(
             self.CARPETA, "Carpeta donde guardar el GeoPackage de rásters",
-            behavior=QgsProcessingParameterFile.Folder,
+            behavior=QgsProcessingParameterFile.Behavior.Folder,
             defaultValue=os.path.join(config.carpeta_trabajo(), "rasters")))
         self.addParameter(QgsProcessingParameterString(
             self.APAGAR, "Guardar y cargar las zonas (apagadas) en: ruta.gpkg|tabla (opcional)",
@@ -287,10 +287,10 @@ class RastersS2GEE(QgsProcessingAlgorithm):
             opts = QgsVectorFileWriter.SaveVectorOptions()
             opts.driverName, opts.layerName = "GPKG", tabla
             # si el GeoPackage todavía no existe (primera corrida), se crea
-            opts.actionOnExistingFile = (QgsVectorFileWriter.CreateOrOverwriteLayer if os.path.exists(gpkg)
-                                         else QgsVectorFileWriter.CreateOrOverwriteFile)
+            opts.actionOnExistingFile = (QgsVectorFileWriter.ActionOnExistingFile.CreateOrOverwriteLayer if os.path.exists(gpkg)
+                                         else QgsVectorFileWriter.ActionOnExistingFile.CreateOrOverwriteFile)
             err = QgsVectorFileWriter.writeAsVectorFormatV3(zl, gpkg, context.transformContext(), opts)
-            if err[0] != QgsVectorFileWriter.NoError:
+            if err[0] != QgsVectorFileWriter.WriterError.NoError:
                 feedback.reportError(f"No se pudieron guardar las zonas: {err[1]}")
             else:
                 capa = QgsVectorLayer(f"{gpkg}|layername={tabla}", "Zonas de búsqueda", "ogr")

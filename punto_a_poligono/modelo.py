@@ -33,14 +33,14 @@ from qgis.PyQt.QtCore import QPointF
 
 from . import config
 
-D = QgsProcessingParameterNumber.Double
+D = QgsProcessingParameterNumber.Type.Double
 
 
 def _parametros():
-    avanzado = QgsProcessingParameterDefinition.FlagAdvanced
+    avanzado = QgsProcessingParameterDefinition.Flag.FlagAdvanced
     ps = [
         QgsProcessingParameterFeatureSource("puntos", "Puntos (uno dentro de cada chacra)",
-                                            [QgsProcessing.TypeVectorPoint]),
+                                            [QgsProcessing.SourceType.TypeVectorPoint]),
         QgsProcessingParameterField("campo_id", "Campo identificador de cada punto (valores únicos)",
                                     parentLayerParameterName="puntos"),
         QgsProcessingParameterField("campo_ha", "Campo de hectáreas declaradas (opcional)",

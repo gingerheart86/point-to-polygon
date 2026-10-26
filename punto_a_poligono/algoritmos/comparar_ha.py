@@ -80,16 +80,16 @@ class CompararHa(QgsProcessingAlgorithm):
 
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFeatureSource(
-            self.CHACRAS, "Chacras (con area_ha)", [QgsProcessing.TypeVectorPolygon]))
+            self.CHACRAS, "Chacras (con area_ha)", [QgsProcessing.SourceType.TypeVectorPolygon]))
         self.addParameter(QgsProcessingParameterFeatureSource(
-            self.PUNTOS, "Puntos de las chacras", [QgsProcessing.TypeVectorPoint]))
+            self.PUNTOS, "Puntos de las chacras", [QgsProcessing.SourceType.TypeVectorPoint]))
         self.addParameter(QgsProcessingParameterField(
             self.CAMPO_ID, "Campo identificador", parentLayerParameterName=self.PUNTOS))
         self.addParameter(QgsProcessingParameterField(
             self.CAMPO_HA, "Campo de hectáreas declaradas (opcional)",
             parentLayerParameterName=self.PUNTOS, optional=True))
         self.addParameter(QgsProcessingParameterNumber(
-            self.TOLERANCIA, "Tolerancia (%)", QgsProcessingParameterNumber.Double, 20, minValue=0))
+            self.TOLERANCIA, "Tolerancia (%)", QgsProcessingParameterNumber.Type.Double, 20, minValue=0))
         self.addParameter(QgsProcessingParameterField(
             self.CONTROLES, "Controles extra: campos de los puntos que deben ser OK (opcional)",
             parentLayerParameterName=self.PUNTOS, allowMultiple=True, optional=True))
@@ -162,7 +162,7 @@ class CompararHa(QgsProcessingAlgorithm):
                          motivo="; ".join(motivos) or None)
             attrs.update(extra.get(k, {}))
             o.setAttributes([attrs.get(n) for n in campos.names()])
-            sink.addFeature(o, QgsFeatureSink.FastInsert)
+            sink.addFeature(o, QgsFeatureSink.Flag.FastInsert)
         feedback.pushInfo(f"{n_rev} chacras en REVISAR (diferencia de ha > {tol:g} %"
                           + (f" o {', '.join(controles)} distinto de OK" if controles else "") + ")")
         return {self.OUTPUT: dest}

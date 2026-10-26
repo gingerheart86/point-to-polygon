@@ -62,7 +62,7 @@ class Configurar(QgsProcessingAlgorithm):
         return Configurar()
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def initAlgorithm(self, config_=None):
         self.addParameter(QgsProcessingParameterFile(
@@ -74,7 +74,7 @@ class Configurar(QgsProcessingAlgorithm):
             optional=True))
         self.addParameter(QgsProcessingParameterFile(
             self.CARPETA, "Carpeta de trabajo (resultados y rásters)",
-            behavior=QgsProcessingParameterFile.Folder, defaultValue=config.carpeta_trabajo()))
+            behavior=QgsProcessingParameterFile.Behavior.Folder, defaultValue=config.carpeta_trabajo()))
         self.addParameter(QgsProcessingParameterBoolean(self.PROBAR, "Probar la conexión con Earth Engine", True))
         self.addOutput(QgsProcessingOutputString(self.OUTPUT, "Resultado"))
 

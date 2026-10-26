@@ -52,8 +52,8 @@ def generar(md=None, pdf=None):
     writer = QPdfWriter(pdf)
     writer.setResolution(300)
     writer.setTitle(f"Manual de uso: plugin {config.NOMBRE}")
-    writer.setPageLayout(QPageLayout(QPageSize(QPageSize.A4), QPageLayout.Portrait,
-                                     QMarginsF(18, 15, 18, 15), QPageLayout.Millimeter))
+    writer.setPageLayout(QPageLayout(QPageSize(QPageSize.PageSizeId.A4), QPageLayout.Orientation.Portrait,
+                                     QMarginsF(18, 15, 18, 15), QPageLayout.Unit.Millimeter))
     doc = QTextDocument()
     doc.setDefaultFont(QFont("Arial", 10))
     doc.setDefaultStyleSheet(CSS)

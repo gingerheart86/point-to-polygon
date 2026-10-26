@@ -66,17 +66,17 @@ class SegmentarS2GEE(QgsProcessingAlgorithm):
 
     def initAlgorithm(self, config_=None):
         self.addParameter(QgsProcessingParameterFeatureSource(
-            self.PUNTOS, "Puntos de las chacras", [QgsProcessing.TypeVectorPoint]))
+            self.PUNTOS, "Puntos de las chacras", [QgsProcessing.SourceType.TypeVectorPoint]))
         self.addParameter(QgsProcessingParameterField(
             self.CAMPO_ID, "Campo identificador", parentLayerParameterName=self.PUNTOS))
         self.addParameter(QgsProcessingParameterFeatureSource(
-            self.ZONAS, "Zonas de búsqueda (con el mismo campo identificador)", [QgsProcessing.TypeVectorPolygon]))
+            self.ZONAS, "Zonas de búsqueda (con el mismo campo identificador)", [QgsProcessing.SourceType.TypeVectorPolygon]))
         self.addParameter(QgsProcessingParameterString(self.INICIO, "Inicio de la temporada (AAAA-MM-DD)", "2026-05-01"))
         self.addParameter(QgsProcessingParameterString(self.FIN, "Fin de la temporada (AAAA-MM-DD)", "2026-12-31"))
         self.addParameter(QgsProcessingParameterNumber(
-            self.UMBRAL, "Umbral de similitud (RMS de NDVI)", QgsProcessingParameterNumber.Double, 0.15,
+            self.UMBRAL, "Umbral de similitud (RMS de NDVI)", QgsProcessingParameterNumber.Type.Double, 0.15,
             minValue=0.01, maxValue=1))
-        self.addParameter(QgsProcessingParameterFeatureSink(self.OUTPUT, "Chacras", QgsProcessing.TypeVectorPolygon))
+        self.addParameter(QgsProcessingParameterFeatureSink(self.OUTPUT, "Chacras", QgsProcessing.SourceType.TypeVectorPolygon))
 
     @staticmethod
     def _geojson(fuente, campo, ruta):
@@ -128,7 +128,7 @@ class SegmentarS2GEE(QgsProcessingAlgorithm):
                              ("n_img", QVariant.Int), ("inicio", QVariant.String), ("fin", QVariant.String)):
             campos.append(QgsField(nombre, tipo))
         sink, dest = self.parameterAsSink(parameters, self.OUTPUT, context, campos,
-                                          QgsWkbTypes.MultiPolygon, puntos.sourceCrs())
+                                          QgsWkbTypes.Type.MultiPolygon, puntos.sourceCrs())
         tr = QgsCoordinateTransform(seg.crs(), puntos.sourceCrs(), QgsProject.instance())
         for f in seg.getFeatures():
             if not f.hasGeometry():
@@ -139,5 +139,5 @@ class SegmentarS2GEE(QgsProcessingAlgorithm):
             o = QgsFeature(campos)
             o.setGeometry(g)
             o.setAttributes([f["id"], f["umbral"], f["area_ha"], f["n_img"], f["inicio"], f["fin"]])
-            sink.addFeature(o, QgsFeatureSink.FastInsert)
+            sink.addFeature(o, QgsFeatureSink.Flag.FastInsert)
         return {self.OUTPUT: dest}
