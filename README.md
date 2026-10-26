@@ -2,6 +2,7 @@
 
 > **English summary.** QGIS plugin that draws the boundary of a crop field from a single point inside it, using the Sentinel-2 NDVI time series in Google Earth Engine (connected pixels that share the point's NDVI history). It also computes the area, compares it with a declared area (OK / REVISAR) and adds season rainfall (CHIRPS v3) and temperature (Landsat 8/9 surface temperature, ERA5-Land). Requires an external Python with `earthengine-api` and a Google Cloud project with Earth Engine enabled. Interface and manual in Spanish; developed and tested in Uruguay. Licensed under GPL-2.0-or-later.
 
+Plugin de QGIS + Google Earth Engine que, a partir de **un punto georreferenciado dentro de una chacra**, genera automáticamente el **polígono de la chacra** con la serie temporal de NDVI de Sentinel-2. Además calcula hectáreas, las compara con las declaradas y agrega **lluvia** (CHIRPS v3) y **temperatura** (Landsat 8/9, ERA5-Land) de la temporada.
 
 Sirve en cualquier caso en que se conozca solo la ubicación aproximada de un cultivo y haga falta su contorno. Desarrollado y probado en Uruguay.
 
