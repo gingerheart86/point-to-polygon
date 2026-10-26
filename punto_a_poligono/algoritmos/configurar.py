@@ -8,7 +8,7 @@ Guarda en la configuración de QGIS:
 Después prueba la conexión con Earth Engine y avisa si algo falla.
 """
 import os
-import subprocess
+import subprocess  # nosec B404
 
 from qgis.core import (
     QgsApplication,
@@ -99,7 +99,7 @@ class Configurar(QgsProcessingAlgorithm):
             codigo = ("import ee; ee.Initialize(project=%r); "
                       "n = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED').limit(1).size().getInfo(); "
                       "print('Earth Engine OK', n)") % (proyecto or None)
-            p = subprocess.run([python, "-I", "-c", codigo], capture_output=True, text=True, env=config.entorno_gee(),
+            p = subprocess.run([python, "-I", "-c", codigo], capture_output=True, text=True, env=config.entorno_gee(),  # nosec B603
                                timeout=180, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
             salida = (p.stdout + p.stderr).strip()
             feedback.pushInfo(salida[-1500:])

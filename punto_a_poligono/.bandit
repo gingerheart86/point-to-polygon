@@ -1,0 +1,5 @@
+[bandit]
+# B404/B603: el plugin ejecuta, a propósito, el Python externo que tiene earthengine-api
+# (ruta configurada por el usuario en "Configurar") con los scripts de gee/ del propio plugin.
+# Los argumentos van en lista, sin shell=True, así que no hay inyección de comandos.
+skips = B404,B603

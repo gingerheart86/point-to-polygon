@@ -22,7 +22,7 @@ import glob
 import json
 import os
 import shutil
-import subprocess
+import subprocess  # nosec B404
 import tempfile
 
 from osgeo import gdal
@@ -209,7 +209,7 @@ class RastersS2GEE(QgsProcessingAlgorithm):
         feedback.pushInfo(f"{len(geoms)} zonas en {len(partes)} grupo(s). Descargando de Earth Engine...")
 
         cmd = [python, "-I", "-u", script, entrada, salida, inicio, fin] + ([proyecto] if proyecto else [])
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=config.entorno_gee(), text=True,
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=config.entorno_gee(), text=True,  # nosec B603
                                 encoding="utf-8", errors="replace",
                                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         for linea in proc.stdout:

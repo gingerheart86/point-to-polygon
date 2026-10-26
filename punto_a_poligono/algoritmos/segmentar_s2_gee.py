@@ -7,7 +7,7 @@ con earthengine-api.
 """
 import json
 import os
-import subprocess
+import subprocess  # nosec B404
 import tempfile
 
 from qgis.core import (
@@ -111,7 +111,7 @@ class SegmentarS2GEE(QgsProcessingAlgorithm):
         feedback.pushInfo(f"{n} puntos. Segmentando en Earth Engine (puede tardar unos minutos)...")
         cmd = [python, "-I", "-u", config.SCRIPT_04, tmp, salida, inicio, fin] + ([proyecto] if proyecto else []) + [
             "--umbrales", str(umbral)]
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=config.entorno_gee(),
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=config.entorno_gee(),  # nosec B603
                                 text=True, encoding="utf-8", errors="replace",
                                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         for linea in proc.stdout:

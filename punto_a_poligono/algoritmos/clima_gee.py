@@ -6,7 +6,7 @@ cálculo se hace en Google Earth Engine con el script gee/04e_clima_chacras_gee.
 """
 import json
 import os
-import subprocess
+import subprocess  # nosec B404
 import tempfile
 
 from qgis.core import (
@@ -102,7 +102,7 @@ class ClimaGEE(QgsProcessingAlgorithm):
 
         cmd = [python, "-I", "-u", os.path.join(config.GEE_DIR, "04e_clima_chacras_gee.py"), entrada, salida,
                inicio, fin] + ([proyecto] if proyecto else [])
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=config.entorno_gee(),
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=config.entorno_gee(),  # nosec B603
                                 text=True, encoding="utf-8", errors="replace",
                                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         for linea in proc.stdout:
