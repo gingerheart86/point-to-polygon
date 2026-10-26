@@ -63,7 +63,11 @@ def s2_mediana(zona, d0, d1):
 
 def main(carpeta, salida, inicio, fin, proyecto=None):
     ee.Initialize(project=proyecto)
-    leer = lambda n: json.load(open(os.path.join(carpeta, n), encoding="utf-8"))["features"]
+
+    def leer(n):
+        with open(os.path.join(carpeta, n), encoding="utf-8") as f:
+            return json.load(f)["features"]
+
     puntos = {f["properties"]["id"]: f["geometry"] for f in leer("puntos.geojson")}
     zonas = {f["properties"]["id"]: f["geometry"] for f in leer("zonas.geojson")}
     grupos = [(f["properties"]["grupo"], f["geometry"]) for f in leer("grupos.geojson")]

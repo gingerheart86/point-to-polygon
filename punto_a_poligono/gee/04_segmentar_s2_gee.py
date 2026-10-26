@@ -99,8 +99,11 @@ def main(carpeta, salida, inicio, fin, proyecto=None, umbrales=None, bandas=None
     if bandas:
         BANDAS = list(bandas)
     ee.Initialize(project=proyecto)
-    leer = lambda n: {f["properties"]["id"]: f["geometry"]
-                      for f in json.load(open(os.path.join(carpeta, n), encoding="utf-8"))["features"]}
+
+    def leer(n):
+        with open(os.path.join(carpeta, n), encoding="utf-8") as f:
+            return {g["properties"]["id"]: g["geometry"] for g in json.load(f)["features"]}
+
     puntos, zonas = leer("puntos.geojson"), leer("zonas_busqueda.geojson")
     feats = []
     for pid, gp in puntos.items():
