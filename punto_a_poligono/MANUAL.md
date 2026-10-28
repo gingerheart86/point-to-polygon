@@ -8,31 +8,68 @@ A partir de **un punto dentro de cada chacra**, dibuja el **polígono del lote**
 
 ### 1.1 Requisitos de la PC
 1. **QGIS 3.28 o posterior** (también QGIS 4). Probado en 3.28 y 3.44.
-2. **Python con la librería `earthengine-api`**, en un entorno aparte del de QGIS. Por ejemplo, desde una terminal:
-   - `python -m venv %USERPROFILE%\.venvs\gee`
-   - `%USERPROFILE%\.venvs\gee\Scripts\pip install earthengine-api requests pip-system-certs`
-   - `pip-system-certs` hace falta si la red tiene un proxy que inspecciona SSL: así Python usa los certificados de Windows.
-3. **Salida a Google Earth Engine** (`*.googleapis.com`): directa o por el proxy de la red.
-4. **Cuenta con acceso a Earth Engine:** una cuenta de Google con permiso en un **proyecto de Google Cloud con Earth Engine habilitado** (se crea gratis para uso no comercial en code.earthengine.google.com). Después, autenticarse **una vez**:
-   - `%USERPROFILE%\.venvs\gee\Scripts\earthengine authenticate`
+2. **Python con la librería `earthengine-api`**, aparte del Python de QGIS (paso a paso en 1.2).
+3. **Un proyecto de Google Earth Engine** al que tu cuenta de Google tenga acceso (paso a paso en 1.2).
+4. **Salida a internet hacia Google** (`*.googleapis.com`): directa o por el proxy de la red.
 
-### 1.2 Instalar el plugin
+### 1.2 Paso a paso: Python y Earth Engine
+Se hace **una sola vez por PC** y lleva unos 15 minutos. Los comandos se escriben en el **Símbolo del sistema**: tecla Windows, escribir `cmd` y Enter. En cada comando, copiá la línea entera y apretá Enter.
+
+**Paso 1. Instalar Python** (si ya está instalado, saltear)
+1. Entrar a **python.org/downloads** y bajar el instalador de Windows (botón *Download Python 3.x*).
+2. Abrirlo, tildar **"Add python.exe to PATH"** y tocar **Install Now**. No hace falta ser administrador.
+3. Para comprobar, en el Símbolo del sistema:
+   - `py --version` tiene que mostrar algo como `Python 3.12.x`.
+
+**Paso 2. Crear el entorno "gee" e instalar earthengine-api**
+1. Si la red usa **proxy**, primero avisarle a Python (cambiar por el proxy de tu red; si no hay proxy, saltear):
+   - `set HTTPS_PROXY=http://proxy.empresa:8080`
+   - `set HTTP_PROXY=http://proxy.empresa:8080`
+2. Crear el entorno, que es una carpeta con un Python propio para Earth Engine:
+   - `py -m venv %USERPROFILE%\.venvs\gee`
+3. Instalar las librerías (tarda 1 o 2 minutos):
+   - `%USERPROFILE%\.venvs\gee\Scripts\python -m pip install earthengine-api requests pip-system-certs`
+   - `pip-system-certs` hace que Python use los certificados de Windows; hace falta si el proxy inspecciona SSL.
+4. Queda instalado en `C:\Users\<tu usuario>\.venvs\gee\Scripts\python.exe`. Esa es la ruta que se pone en *Configurar* (1.4).
+
+**Paso 3. Conseguir el proyecto de Earth Engine**
+
+Earth Engine trabaja dentro de un **proyecto de Google Cloud**. Hay dos caminos:
+- **Usar un proyecto que ya existe** (por ejemplo, el de tu equipo): pedirle al dueño que te agregue en **console.cloud.google.com → IAM y administración → IAM → Otorgar acceso**, con tu mail de Google y los roles **"Earth Engine Resource Writer"** y **"Service Usage Consumer"**. Después pedile el **ID del proyecto**.
+- **Crear uno propio:**
+  1. Entrar a **code.earthengine.google.com/register** con tu cuenta de Google.
+  2. Elegir el tipo de uso. El uso no comercial (investigación, educación, gobierno, ONG) es gratis; el comercial requiere una cuenta paga.
+  3. Elegir **"Create a new Google Cloud Project"**. Te propone un ID como `ee-tuusuario`; aceptarlo o cambiarlo.
+  4. Terminar el registro. Earth Engine queda habilitado en ese proyecto.
+
+**Dónde ver el ID del proyecto:** en **console.cloud.google.com**, en el selector de proyecto de arriba a la izquierda. Usar la columna **ID** (por ejemplo `ee-tuusuario` o `mi-proyecto-123456`), **no el nombre**.
+
+**Paso 4. Autenticarse** (vincular la PC con tu cuenta de Google)
+1. En el Símbolo del sistema (si hay proxy, repetir antes los dos `set` del paso 2):
+   - `%USERPROFILE%\.venvs\gee\Scripts\earthengine authenticate`
+2. Se abre el navegador: elegir la cuenta de Google que tiene acceso al proyecto y aceptar los permisos.
+3. Cuando el navegador dice que terminó, cerrar la pestaña. En el Símbolo del sistema aparece *Successfully saved authorization token*.
+4. Si el navegador no se abre, copiar el enlace que aparece en el Símbolo del sistema y pegarlo en el navegador.
+
+La autenticación dura mucho tiempo. Si un día Earth Engine dice que las credenciales vencieron, repetir solo el paso 4.
+
+### 1.3 Instalar el plugin
 1. En QGIS: **Complementos → Administrar e instalar complementos → Todos**, buscar **"Punto a Polígono"** e instalar.
    - Mientras sea experimental: en *Configuración*, tildar **"Mostrar también los complementos experimentales"**.
    - También se puede instalar el `.zip` de la sección **Releases** del repositorio con *Instalar desde ZIP*.
 2. Aparece el menú **Complementos → Punto a polígono** y, en la Caja de herramientas de Procesos, el grupo **Punto a polígono**.
 
-### 1.3 Configurar (una vez por PC)
+### 1.4 Configurar (una vez por PC)
 **Complementos → Punto a polígono → Configurar (una vez por PC)…**
 
 | Parámetro | Qué poner |
 |---|---|
-| Python con earthengine-api | `C:\Users\<usuario>\.venvs\gee\Scripts\python.exe` |
-| Proyecto de Google Cloud | el proyecto de Earth Engine |
+| Python con earthengine-api | `C:\Users\<tu usuario>\.venvs\gee\Scripts\python.exe` (paso 2 de 1.2) |
+| Proyecto de Google Cloud | el **ID** del proyecto de Earth Engine (paso 3 de 1.2) |
 | Proxy | el de la red, ej. `http://proxy.empresa:8080`. Vacío si no hay |
 | Carpeta de trabajo | dónde se guardan resultados y rásters |
 
-Al ejecutarlo, **prueba la conexión con Earth Engine** y te avisa si algo falla.
+Al ejecutarlo, **prueba la conexión con Earth Engine**. Si en el registro aparece **"Earth Engine OK"**, está todo listo. Si falla, ver la sección 4.
 
 ---
 
@@ -106,6 +143,11 @@ Al ejecutarlo, **prueba la conexión con Earth Engine** y te avisa si algo falla
 | Mensaje | Solución |
 |---|---|
 | "No encuentro el Python de Earth Engine" | correr *Configurar* y poner la ruta correcta |
+| `py` o `python` "no se reconoce como un comando" | Python no está instalado o no se tildó *Add python.exe to PATH*: reinstalar (paso 1 de 1.2) |
+| Al hacer `pip install`: error de conexión o de certificado | falta el proxy: hacer los dos `set` del paso 2 de 1.2 en la misma ventana y repetir |
+| *Configurar* falla con "Not signed up for Earth Engine" o "project … not registered" | el proyecto no tiene Earth Engine habilitado: registrarlo en code.earthengine.google.com/register (paso 3 de 1.2) |
+| *Configurar* falla con "Permission denied" o "Caller does not have required permission" | tu cuenta no tiene acceso a ese proyecto: pedir los roles del paso 3 de 1.2, o revisar que pusiste el **ID** y no el nombre |
+| *Configurar* falla con "credentials" o "Please authorize access" | falta autenticarse o venció: repetir el paso 4 de 1.2 |
 | "Falló la segmentación en Earth Engine" | ver el registro. Causas habituales: sin internet o proxy mal configurado, `earthengine authenticate` vencido, cuenta sin acceso al proyecto |
 | "Las zonas de búsqueda no tienen el campo…" | el campo identificador tiene que existir en los puntos |
 
