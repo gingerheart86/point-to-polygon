@@ -50,7 +50,7 @@ point-to-polygon/
 
 ## Requisitos
 
-- QGIS 3.40 o posterior (también QGIS 4).
+- QGIS 3.28 o posterior (también QGIS 4).
 - Python con `earthengine-api` y un proyecto de Google Cloud con Earth Engine habilitado (ver el manual).
 
 ## Fuentes de datos

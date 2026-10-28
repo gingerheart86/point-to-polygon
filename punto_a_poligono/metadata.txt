@@ -1,10 +1,10 @@
 [general]
 name=Punto a Polígono
-qgisMinimumVersion=3.40
+qgisMinimumVersion=3.28
 qgisMaximumVersion=4.99
 description=Draws the polygon of a crop field from a single point inside it, using the Sentinel-2 NDVI time series in Google Earth Engine. Interface in Spanish.
 about=Given one point inside each field, the plugin builds the NDVI history of that point (monthly Sentinel-2 composites with Cloud Score+ masking, computed in Google Earth Engine) and keeps the connected pixels that share the same history. It then computes the area, optionally compares it with a declared area (OK / REVISAR), and adds rainfall (CHIRPS v3) and temperature (Landsat 8/9 surface temperature at 30 m, ERA5-Land) for the season. Requires an external Python with the earthengine-api package and access to a Google Cloud project with Earth Engine enabled (see the manual). Interface and manual in Spanish. Developed and tested in Uruguay.
-version=1.0.3
+version=1.0.4
 author=Carolina Menchaca
 email=cmenchaca1986@gmail.com
 category=Analysis
@@ -16,6 +16,7 @@ experimental=True
 deprecated=False
 hasProcessingProvider=yes
 changelog=
+    1.0.4 Minimum QGIS version back to 3.28 (tested on 3.28 and 3.44).
     1.0.3 Author contact email updated. Code style fixes in the Earth Engine scripts (flake8 E731).
     1.0.2 QGIS 4 / Qt6 compatibility: scoped enum names. Minimum QGIS version is now 3.40.
     1.0.1 Security scan: documented the intentional subprocess calls to the Earth Engine Python (.bandit, nosec). No functional changes.
